@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { Container, Jumbotron } from 'react-bootstrap';
 import NavigationBar from '../../Components/NavigationBar/NavigationBar';
-import './Login.css';
 
-class Login extends Component {
+class SignUp extends Component {
 
   render() {
     console.log(this.props.loggedIn)
@@ -20,4 +19,4 @@ class Login extends Component {
   }
 }
 
-export default Login;
+export default SignUp;
