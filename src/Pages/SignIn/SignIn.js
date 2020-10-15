@@ -38,8 +38,8 @@ class SignIn extends Component {
         <Container style={{ backgroundColor: 'white' }}>
 
           <Jumbotron style={{ backgroundColor: 'white', marginBottom: '0px'}}>
-            <h1 className="main-title permanent-marker blue">StudyParty!</h1>
-            <h5 className="montserrat">Study together.</h5>
+            <h1 className="main-title permanent-marker pink animate__animated animate__pulse">StudyParty!</h1>
+            <h6 className="montserrat">Hey! You want to umm... study???</h6>
           </Jumbotron>
           <div style={{maxWidth: "600px", margin: "0 auto"}}>
           <Form>

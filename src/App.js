@@ -25,7 +25,7 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App" style={{backgroundColor: 'lightcoral'}}>
+      <div className="App">
         {this.state.loggedIn
           ?
           <Main changeLoggedIn={this.changeLoggedIn} {...this.state} />

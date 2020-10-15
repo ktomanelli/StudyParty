@@ -41,7 +41,7 @@ class SignUp extends Component {
         <Container style={{ backgroundColor: 'white' }}>
 
           <Jumbotron style={{ backgroundColor: 'white', marginBottom: '0px' }}>
-            <h1 className="main-title permanent-marker blue">StudyParty!</h1>
+            <h1 className="main-title permanent-marker pink">StudyParty!</h1>
           </Jumbotron>
           <div style={{ maxWidth: "600px", margin: "0 auto"}}>
             <Form>
