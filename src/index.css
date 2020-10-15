@@ -1,20 +1,27 @@
 @import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,200&display=swap');
 
 body {
+  background-color: 'lightcoral';
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #e9ecef
+  /* background-color: #e9ecef; */
 }
 
 code {
+  background-color: 'lightcoral';
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
 
 .permanent-marker {
   font-family: 'Permanent Marker', cursive;
+}
+
+.montserrat {
+  font-family: 'Montserrat', sans-serif;
 }

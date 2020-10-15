@@ -35,10 +35,11 @@ class SignIn extends Component {
     return (
       <div>
         <NavigationBar changeLoggedIn={this.props.changeLoggedIn} loggedIn={this.props.loggedIn} />
-        <Container>
+        <Container style={{ backgroundColor: 'white' }}>
 
           <Jumbotron style={{ backgroundColor: 'white', marginBottom: '0px'}}>
             <h1 className="main-title permanent-marker blue">StudyParty!</h1>
+            <h5 className="montserrat">Study together.</h5>
           </Jumbotron>
           <div style={{maxWidth: "600px", margin: "0 auto"}}>
           <Form>
@@ -64,7 +65,7 @@ class SignIn extends Component {
             </Button>
             </div>
           </Form>
-          <p>
+          <p style={{ paddingBottom: '100px'}}>
             Don't have an account? Sign up <Link to='signUp'>here</Link>
           </p>
           </div>
