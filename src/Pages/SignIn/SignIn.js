@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Container, Jumbotron, Form, Button } from 'react-bootstrap';
 import NavigationBar from '../../Components/NavigationBar/NavigationBar';
 import './SignIn.css';
+import { Link } from 'react-router-dom';
 
 class SignIn extends Component {
 
@@ -36,7 +37,7 @@ class SignIn extends Component {
         <NavigationBar changeLoggedIn={this.props.changeLoggedIn} loggedIn={this.props.loggedIn} />
         <Container>
 
-          <Jumbotron style={{ backgroundColor: 'white' }}>
+          <Jumbotron style={{ backgroundColor: 'white', marginBottom: '0px'}}>
             <h1 className="main-title permanent-marker blue">StudyParty!</h1>
           </Jumbotron>
           <div style={{maxWidth: "600px", margin: "0 auto"}}>
@@ -54,7 +55,7 @@ class SignIn extends Component {
               <Form.Control type="password" placeholder="Password" name="userPassword" value={this.state.password} onChange={(event) => this.onChangeHandler(event)} />
             </Form.Group>
             <Button variant="primary" type="submit" block>
-              SignIn
+              Sign In
             </Button>
             <div style={{margin: '40px 0px'}}>
               <p className="ride-line"><span className="ride-line-span">or</span></p>
@@ -63,6 +64,9 @@ class SignIn extends Component {
             </Button>
             </div>
           </Form>
+          <p>
+            Don't have an account? Sign up <Link to='signUp'>here</Link>
+          </p>
           </div>
         </Container>
       </div>

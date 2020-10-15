@@ -32,7 +32,7 @@ class App extends Component {
           :
           <Router>
             <Switch>
-              <Route exact path="signUp">
+              <Route exact path="/signUp">
                 <SignUp />
               </Route>
               <Route exact path="/">
