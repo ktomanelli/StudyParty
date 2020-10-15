@@ -1,8 +1,12 @@
-import React from 'react'
+import React, { useContext } from "react";
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
+import { auth } from '../../firebase';
+import { UserContext } from '../../Providers/UserProvider'
 
 function NavigationBar(props) {
-  console.log(props);
+  const user = useContext(UserContext);
+  const {displayName} = user || ""
+
   return (
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
       <Navbar.Brand href="#home" className="permanent-marker">StudyParty!</Navbar.Brand>
@@ -20,7 +24,12 @@ function NavigationBar(props) {
           </NavDropdown>
         </Nav>
         <Nav>
-          <Nav.Link style={{marginRight: "20px"}} onClick={props.changeLoggedIn}>{props.loggedIn ? 'Logout' : 'Login'}</Nav.Link>
+          {displayName ? 
+          <>
+          <Nav.Link style={{ marginRight: "20px" }}>{`Welcome, ${displayName}`}</Nav.Link>
+          <Nav.Link style={{ marginRight: "20px" }} onClick={() => { auth.signOut() }}>Logout</Nav.Link>
+          </>
+          : null}
         </Nav>
       </Navbar.Collapse>
     </Navbar>

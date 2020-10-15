@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Container, Jumbotron, Button, Form } from 'react-bootstrap';
 import NavigationBar from '../../Components/NavigationBar/NavigationBar';
 import { Link } from 'react-router-dom';
+import { signInWithGoogle } from '../../firebase';
 
 class SignUp extends Component {
   state = {
@@ -18,9 +19,14 @@ class SignUp extends Component {
     setTimeout(() => this.typeWriter(subtitleStr), 1500)
   }
 
-  signInWithEmailAndPasswordHandler = (event, email, password) => {
-    event.preventDefault()
-  }
+  createUserWithEmailAndPasswordHandler = (event, email, password) => {
+    event.preventDefault();
+    this.setState({
+      email: "",
+      password: "",
+      displayName: ""
+    })
+  };
 
   //function to handle form change
   onChangeHandler = (event) => {
@@ -58,7 +64,7 @@ class SignUp extends Component {
         <NavigationBar changeLoggedIn={this.props.changeLoggedIn} loggedIn={this.props.loggedIn} />
         <Container style={{ backgroundColor: 'white' }}>
 
-          <Jumbotron style={{ backgroundColor: 'white', marginBottom: '0px' }}>
+          <Jumbotron style={{ backgroundColor: 'white', marginBottom: '0px', textAlign: "center" }}>
             <h1 className="main-title permanent-marker pink animate__animated animate__bounceInDown">StudyParty!</h1>
             <h6 className="montserrat">
               {this.state.typed}
@@ -89,13 +95,20 @@ class SignUp extends Component {
                 <Form.Label>Password</Form.Label>
                 <Form.Control type="password" placeholder="Password" name="userPassword" value={this.state.password} onChange={(event) => this.onChangeHandler(event)} />
               </Form.Group>
-              <Button variant="primary" type="submit" block>
+              <Button
+                variant="primary"
+                type="submit"
+                block
+                onClick={event => {
+                  this.createUserWithEmailAndPasswordHandler(event, this.state.email, this.state.password);
+                }}
+              >
                 Sign Up
             </Button>
               <div style={{ margin: '40px 0px' }}>
                 <p className="ride-line"><span className="ride-line-span">or</span></p>
-                <Button variant="outline-primary" block>
-                  Sign in with Google
+                <Button onClick={signInWithGoogle} variant="outline-primary" block >
+                  Sign up with Google
             </Button>
               </div>
             </Form>

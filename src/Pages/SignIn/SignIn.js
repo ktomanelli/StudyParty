@@ -3,6 +3,7 @@ import { Container, Jumbotron, Form, Button } from 'react-bootstrap';
 import NavigationBar from '../../Components/NavigationBar/NavigationBar';
 import './SignIn.css';
 import { Link } from 'react-router-dom';
+import { signInWithGoogle } from '../../firebase';
 
 class SignIn extends Component {
 
@@ -21,6 +22,10 @@ class SignIn extends Component {
 
   signInWithEmailAndPasswordHandler = (event, email, password) => {
     event.preventDefault()
+    this.setState({
+      email: "",
+      password: "",
+    })
   }
 
   //function to handle form change
@@ -57,7 +62,7 @@ class SignIn extends Component {
 
         <Container style={{ backgroundColor: 'white' }}>
 
-          <Jumbotron style={{ backgroundColor: 'white', marginBottom: '0px' }}>
+          <Jumbotron style={{ backgroundColor: 'white', marginBottom: '0px', textAlign: "center" }}>
             <h1 className="main-title permanent-marker pink animate__animated animate__bounceInDown">StudyParty!</h1>
             <h6 className="montserrat">
               {this.state.typed}
@@ -80,13 +85,20 @@ class SignIn extends Component {
                 <Form.Control type="password" placeholder="Password" name="userPassword" value={this.state.password} onChange={(event) => this.onChangeHandler(event)} />
               </Form.Group>
 
-              <Button variant="primary" type="submit" block>
+              <Button
+              variant="primary"
+              type="submit"
+              block
+              onClick={event => {
+                this.signInWithEmailAndPasswordHandler(event, this.state.email, this.state.password);
+              }}
+              >
                 Sign In
               </Button>
 
               <div style={{ margin: '40px 0px' }}>
                 <p className="ride-line"><span className="ride-line-span">or</span></p>
-                <Button variant="outline-primary" block>
+                <Button variant="outline-primary" block onClick={signInWithGoogle}>
                   Sign in with Google
                 </Button>
               </div>
