@@ -9,12 +9,20 @@ class SignUp extends Component {
     password: "",
     displayName: "",
     error: null,
+    typed: "",
+  }
+
+  // when component mounts, will run typewriter effect on subtitle after 1.5s
+  componentDidMount() {
+    const subtitleStr = 'Hey! You want to umm... study???'
+    setTimeout(() => this.typeWriter(subtitleStr), 1500)
   }
 
   signInWithEmailAndPasswordHandler = (event, email, password) => {
     event.preventDefault()
   }
 
+  //function to handle form change
   onChangeHandler = (event) => {
     const { name, value } = event.currentTarget;
 
@@ -33,6 +41,16 @@ class SignUp extends Component {
     }
   }
 
+  // function that will take add a letter from a given string to 'typed' string stored in state every 50 milliseconds
+  typeWriter(slicedStr) {
+    if (slicedStr.length !== 0) {
+      this.setState((state) => ({
+        typed: state.typed.concat(slicedStr[0])
+      }));
+      setTimeout(() => this.typeWriter(slicedStr.slice(1)), 50);
+    }
+  }
+
   render() {
     console.log(this.props.loggedIn)
     return (
@@ -41,9 +59,15 @@ class SignUp extends Component {
         <Container style={{ backgroundColor: 'white' }}>
 
           <Jumbotron style={{ backgroundColor: 'white', marginBottom: '0px' }}>
-            <h1 className="main-title permanent-marker pink">StudyParty!</h1>
+            <h1 className="main-title permanent-marker pink animate__animated animate__bounceInDown">StudyParty!</h1>
+            <h6 className="montserrat">
+              {this.state.typed}
+              <span className="cursor">
+                <span style={{ fontWeight: "normal" }}>|</span>
+              </span>
+            </h6>
           </Jumbotron>
-          <div style={{ maxWidth: "600px", margin: "0 auto"}}>
+          <div style={{ maxWidth: "600px", margin: "0 auto" }}>
             <Form>
               <Form.Group controlId="userName">
                 <Form.Label>Display name</Form.Label>
@@ -75,7 +99,7 @@ class SignUp extends Component {
             </Button>
               </div>
             </Form>
-            <p style={{ paddingBottom: '100px'}}>
+            <p style={{ paddingBottom: '100px' }}>
               Already have an account? Sign in <Link to='/'>here</Link>
             </p>
           </div>
