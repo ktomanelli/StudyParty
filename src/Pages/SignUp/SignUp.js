@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Container, Jumbotron, Button, Form } from 'react-bootstrap';
-import NavigationBar from '../../Components/NavigationBar/NavigationBar';
 import { Link } from 'react-router-dom';
 import { signInWithGoogle } from '../../firebase';
 import firebase from "firebase/app";
@@ -26,6 +25,9 @@ class SignUp extends Component {
     console.log(displayName);
 
     event.preventDefault();
+
+    // adds displayName immediately to state on Application.js to display on navigation bar
+    this.props.updateDisplayNameFromForm(this.state.displayName)
 
     firebase.auth()
       // .createUserWithEmailAndPassword(email, password)
@@ -87,7 +89,6 @@ class SignUp extends Component {
   render() {
     return (
       <div>
-        <NavigationBar displayName={this.state.displayName} />
         <Container style={{ backgroundColor: 'white' }}>
 
           <Jumbotron style={{ backgroundColor: 'white', marginBottom: '0px', textAlign: "center" }}>

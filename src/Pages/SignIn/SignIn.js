@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Container, Jumbotron, Form, Button } from 'react-bootstrap';
-import NavigationBar from '../../Components/NavigationBar/NavigationBar';
 import './SignIn.css';
 import { Link } from 'react-router-dom';
 import { signInWithGoogle } from '../../firebase';
@@ -70,8 +69,6 @@ class SignIn extends Component {
 
     return (
       <div>
-
-        <NavigationBar changeLoggedIn={this.props.changeLoggedIn} loggedIn={this.props.loggedIn} />
 
         <Container style={{ backgroundColor: 'white' }}>
 
