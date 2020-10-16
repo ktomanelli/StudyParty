@@ -1,6 +1,6 @@
 // import React and Router
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Redirect, BrowserRouter } from "react-router-dom";
 
 // import components
 import SignIn from './Pages/SignIn/SignIn'
@@ -44,7 +44,7 @@ class App extends Component {
 
         <NavigationBar displayName={this.state.displayNameFromForm} />
 
-        <Router>
+        <BrowserRouter basename={`${process.env.PUBLIC_URL}/`}>
           <Switch>
 
             <Route exact path="/">
@@ -62,7 +62,7 @@ class App extends Component {
             </Route>
 
           </Switch>
-        </Router>
+        </BrowserRouter>
       </div>
     );
   }
