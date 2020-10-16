@@ -3,6 +3,7 @@ import { Container, Jumbotron, Button, Form } from 'react-bootstrap';
 import NavigationBar from '../../Components/NavigationBar/NavigationBar';
 import { Link } from 'react-router-dom';
 import { signInWithGoogle } from '../../firebase';
+import firebase from "firebase/app";
 
 class SignUp extends Component {
   state = {
@@ -19,13 +20,39 @@ class SignUp extends Component {
     setTimeout(() => this.typeWriter(subtitleStr), 1500)
   }
 
-  createUserWithEmailAndPasswordHandler = (event, email, password) => {
+  createUserWithEmailAndPasswordHandler = (event, email, password, displayName) => {
+    console.log(email);
+    console.log(password);
+    console.log(displayName);
+
     event.preventDefault();
+
+    firebase.auth()
+      // .createUserWithEmailAndPassword(email, password)
+      .createUserWithEmailAndPassword(email, password)
+      .then(function () {
+        console.log('Successfully created new user');
+        var user = firebase.auth().currentUser;
+        user.updateProfile({
+          displayName: displayName
+        })
+          .then(function () {
+            console.log(`Successfully updated profile with displayName`)
+          })
+          .catch(function (error) {
+            console.log(`Error updating user with displayName:`, error)
+          });
+      })
+      .catch(function (error) {
+        console.log('Error creating new user:', error)
+      });
+
     this.setState({
       email: "",
       password: "",
       displayName: ""
     })
+
   };
 
   //function to handle form change
@@ -58,10 +85,9 @@ class SignUp extends Component {
   }
 
   render() {
-    console.log(this.props.loggedIn)
     return (
       <div>
-        <NavigationBar changeLoggedIn={this.props.changeLoggedIn} loggedIn={this.props.loggedIn} />
+        <NavigationBar displayName={this.state.displayName} />
         <Container style={{ backgroundColor: 'white' }}>
 
           <Jumbotron style={{ backgroundColor: 'white', marginBottom: '0px', textAlign: "center" }}>
@@ -78,17 +104,11 @@ class SignUp extends Component {
               <Form.Group controlId="userName">
                 <Form.Label>Display name</Form.Label>
                 <Form.Control type="name" placeholder="Enter name" name="displayName" value={this.state.displayName} onChange={(event) => this.onChangeHandler(event)} />
-                {/* <Form.Text className="text-muted">
-                We'll never share your email with anyone else.
-              </Form.Text> */}
               </Form.Group>
 
               <Form.Group controlId="userEmail">
                 <Form.Label>Email address</Form.Label>
                 <Form.Control type="email" placeholder="Enter email" name="userEmail" value={this.state.email} onChange={(event) => this.onChangeHandler(event)} />
-                {/* <Form.Text className="text-muted">
-                We'll never share your email with anyone else.
-              </Form.Text> */}
               </Form.Group>
 
               <Form.Group controlId="formBasicPassword">
@@ -100,7 +120,7 @@ class SignUp extends Component {
                 type="submit"
                 block
                 onClick={event => {
-                  this.createUserWithEmailAndPasswordHandler(event, this.state.email, this.state.password);
+                  this.createUserWithEmailAndPasswordHandler(event, this.state.email, this.state.password, this.state.displayName);
                 }}
               >
                 Sign Up

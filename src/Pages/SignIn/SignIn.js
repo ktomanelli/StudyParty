@@ -4,6 +4,7 @@ import NavigationBar from '../../Components/NavigationBar/NavigationBar';
 import './SignIn.css';
 import { Link } from 'react-router-dom';
 import { signInWithGoogle } from '../../firebase';
+import firebase from "firebase/app";
 
 class SignIn extends Component {
 
@@ -17,15 +18,27 @@ class SignIn extends Component {
   // when component mounts, will run typewriter effect on subtitle after 1.5s
   componentDidMount() {
     const subtitleStr = 'Hey! You want to umm... study???'
-    setTimeout(()=> this.typeWriter(subtitleStr), 1500)
+    setTimeout(() => this.typeWriter(subtitleStr), 1500)
   }
 
   signInWithEmailAndPasswordHandler = (event, email, password) => {
     event.preventDefault()
+
+    firebase.auth()
+      .signInWithEmailAndPassword(email, password)
+      .catch(function (error) {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        console.log(errorCode)
+        console.log(errorMessage)
+      });
+
     this.setState({
       email: "",
       password: "",
+      displayName: ""
     })
+
   }
 
   //function to handle form change
@@ -86,12 +99,12 @@ class SignIn extends Component {
               </Form.Group>
 
               <Button
-              variant="primary"
-              type="submit"
-              block
-              onClick={event => {
-                this.signInWithEmailAndPasswordHandler(event, this.state.email, this.state.password);
-              }}
+                variant="primary"
+                type="submit"
+                block
+                onClick={event => {
+                  this.signInWithEmailAndPasswordHandler(event, this.state.email, this.state.password);
+                }}
               >
                 Sign In
               </Button>

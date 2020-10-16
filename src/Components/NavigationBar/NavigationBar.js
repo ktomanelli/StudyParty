@@ -4,11 +4,15 @@ import { auth } from '../../firebase';
 import { UserContext } from '../../Providers/UserProvider'
 
 function NavigationBar(props) {
+  console.log(props);
+
+  console.log(useContext(UserContext));
   const user = useContext(UserContext);
-  const {displayName} = user || ""
+  console.log(user);
+  const { displayName } = user || ""
 
   return (
-    <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+    <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" >
       <Navbar.Brand href="#home" className="permanent-marker">StudyParty!</Navbar.Brand>
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">
@@ -24,12 +28,12 @@ function NavigationBar(props) {
           </NavDropdown>
         </Nav>
         <Nav>
-          {displayName ? 
-          <>
-          <Nav.Link style={{ marginRight: "20px" }}>{`Welcome, ${displayName}`}</Nav.Link>
-          <Nav.Link style={{ marginRight: "20px" }} onClick={() => { auth.signOut() }}>Logout</Nav.Link>
-          </>
-          : null}
+          {user ?
+            <>
+              <Nav.Link style={{ marginRight: "20px" }}>{`Welcome, ${displayName ? displayName : props.displayName}`}</Nav.Link>
+              <Nav.Link style={{ marginRight: "20px" }} onClick={() => { auth.signOut() }}>Logout</Nav.Link>
+            </>
+            : null}
         </Nav>
       </Navbar.Collapse>
     </Navbar>
