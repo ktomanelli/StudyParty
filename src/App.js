@@ -1,6 +1,6 @@
 // import React and Router
 import React, { Component } from 'react';
-import { BrowserRouter as Route, Switch, Redirect, BrowserRouter } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Redirect, BrowserRouter } from "react-router-dom";
 
 // import components
 import SignIn from './Pages/SignIn/SignIn'
