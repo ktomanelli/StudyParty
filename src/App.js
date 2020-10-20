@@ -1,11 +1,12 @@
 // import React and Router
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch, Redirect, BrowserRouter } from "react-router-dom";
+import { BrowserRouter as Route, Switch, Redirect, BrowserRouter } from "react-router-dom";
 
 // import components
 import SignIn from './Pages/SignIn/SignIn'
 import SignUp from './Pages/SignUp/SignUp'
 import Main from './Pages/Main/Main'
+import About from './Pages/About/About'
 import NavigationBar from './Components/NavigationBar/NavigationBar'
 
 // import firebase auth
@@ -59,6 +60,10 @@ class App extends Component {
 
             <Route exact path="/main">
               {!this.state.user ? <Redirect to="/" /> : <Main />}
+            </Route>
+
+            <Route exact path="/about">
+              <About />
             </Route>
 
           </Switch>

@@ -1,0 +1,19 @@
+import React, { Component } from 'react';
+import { Container, Jumbotron } from 'react-bootstrap';
+
+class About extends Component {
+
+  render() {
+    return (
+      <div>
+        <Container>
+          <Jumbotron>
+            <h1>About us</h1>
+          </Jumbotron>
+        </Container>
+      </div>
+    )
+  }
+}
+
+export default About;
