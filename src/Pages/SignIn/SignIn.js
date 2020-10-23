@@ -116,7 +116,7 @@ class SignIn extends Component {
             </Form>
 
             <p style={{ paddingBottom: '100px' }}>
-              Don't have an account? Sign up <Link to='signUp'>here</Link>
+              Don't have an account? Sign up <Link to="/signUp">here</Link>
             </p>
 
           </div>

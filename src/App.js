@@ -18,7 +18,7 @@ import './App.css';
 
 
 class App extends Component {
-  
+
   state = {
     user: null,
     displayNameFromForm: null,
@@ -44,9 +44,10 @@ class App extends Component {
     return (
       <div className="Application">
 
-        <NavigationBar displayName={this.state.displayNameFromForm} />
-
         <BrowserRouter basename={`${process.env.PUBLIC_URL}/`}>
+
+          <NavigationBar displayName={this.state.displayNameFromForm} />
+          
           <Switch>
 
             <Route exact path="/">

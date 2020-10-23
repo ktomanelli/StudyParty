@@ -134,7 +134,7 @@ class SignUp extends Component {
               </div>
             </Form>
             <p style={{ paddingBottom: '100px' }}>
-              Already have an account? Sign in <Link to='/'>here</Link>
+              Already have an account? Sign in <Link to="/">here</Link>
             </p>
           </div>
         </Container>
