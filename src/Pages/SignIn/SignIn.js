@@ -1,131 +1,108 @@
-import React, { Component } from 'react';
+import React, {useState,useEffect} from 'react';
 import { Container, Jumbotron, Form, Button } from 'react-bootstrap';
 import './SignIn.css';
 import { Link } from 'react-router-dom';
 import { signInWithGoogle } from '../../firebase';
 import firebase from "firebase/app";
 
-class SignIn extends Component {
 
-  state = {
+const SignIn = (props)=>{
+  const [{typed,i},setTyped] = useState({typed:'',i:0})
+  const [userInput,setUserInput] = useState(
+    {
     email: "",
     password: "",
     error: null,
-    typed: "",
-  }
+  })
+  const subtitleStr = 'Hey! You want to umm... study???'
 
-  // when component mounts, will run typewriter effect on subtitle after 1.5s
-  componentDidMount() {
-    const subtitleStr = 'Hey! You want to umm... study???'
-    setTimeout(() => this.typeWriter(subtitleStr), 1500)
-  }
+  useEffect(()=>{
+    if(typed.length === subtitleStr.length) return
+    setTimeout(()=>{
+      setTyped({typed:typed+subtitleStr[i],i:i+1})
+    },Math.random()*200+50)
+  },[typed])
 
-  signInWithEmailAndPasswordHandler = (event, email, password) => {
+  const handleSubmit = (event) => {
     event.preventDefault()
-
     firebase.auth()
-      .signInWithEmailAndPassword(email, password)
+      .signInWithEmailAndPassword(userInput.email, userInput.password)
       .catch(function (error) {
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        console.log(errorCode)
-        console.log(errorMessage)
+        setUserInput({...userInput,error:'Incorrect username or password. Please try again.'})
       });
-
-    this.setState({
-      email: "",
-      password: "",
-      displayName: ""
-    })
-
   }
 
-  //function to handle form change
-  onChangeHandler = (event) => {
-    const { name, value } = event.currentTarget;
-
-    if (name === 'userEmail') {
-      this.setState({
-        email: value
-      })
-    } else if (name === 'userPassword') {
-      this.setState({
-        password: value
-      })
+    //function to handle form change
+    const handleChange = (event) => {
+      const { name, value } = event.currentTarget;
+  
+      if (name === 'userEmail') {
+        setUserInput({...userInput,
+          email: value
+        })
+      } else if (name === 'userPassword') {
+        setUserInput({...userInput,
+          password: value
+        })
+      }
     }
-  }
 
-  // function that will take add a letter from a given string to 'typed' string stored in state every 50 milliseconds
-  typeWriter(slicedStr) {
-    if (slicedStr.length !== 0) {
-      this.setState((state) => ({
-        typed: state.typed.concat(slicedStr[0])
-      }));
-      setTimeout(() => this.typeWriter(slicedStr.slice(1)), 50);
-    }
-  }
+  return (
+    <div>
 
-  render() {
+      <Container style={{ backgroundColor: 'white' }}>
 
-    return (
-      <div>
+        <Jumbotron style={{ backgroundColor: 'white', marginBottom: '0px', textAlign: "center" }}>
+          <h1 className="main-title permanent-marker pink animate__animated animate__bounceInDown">StudyParty!</h1>
+          <h6 className="montserrat">
+            {typed}
+            <span className="cursor">
+              <span style={{ fontWeight: "normal" }}>|</span>
+            </span>
+          </h6>
+        </Jumbotron>
 
-        <Container style={{ backgroundColor: 'white' }}>
+        <div style={{ maxWidth: "600px", margin: "0 auto" }}>
+          {userInput.error&&<p style={{color:'red'}}>{userInput.error}</p>}
+          <Form onSubmit={handleSubmit}>
 
-          <Jumbotron style={{ backgroundColor: 'white', marginBottom: '0px', textAlign: "center" }}>
-            <h1 className="main-title permanent-marker pink animate__animated animate__bounceInDown">StudyParty!</h1>
-            <h6 className="montserrat">
-              {this.state.typed}
-              <span className="cursor">
-                <span style={{ fontWeight: "normal" }}>|</span>
-              </span>
-            </h6>
-          </Jumbotron>
+            <Form.Group controlId="userEmail">
+              <Form.Label>Email address</Form.Label>
+              <Form.Control type="email" placeholder="Enter email" name="userEmail" value={userInput.email} onChange={handleChange} />
+            </Form.Group>
 
-          <div style={{ maxWidth: "600px", margin: "0 auto" }}>
-            <Form>
+            <Form.Group controlId="formBasicPassword">
+              <Form.Label>Password</Form.Label>
+              <Form.Control type="password" placeholder="Password" name="userPassword" value={userInput.password} onChange={handleChange} />
+            </Form.Group>
 
-              <Form.Group controlId="userEmail">
-                <Form.Label>Email address</Form.Label>
-                <Form.Control type="email" placeholder="Enter email" name="userEmail" value={this.state.email} onChange={(event) => this.onChangeHandler(event)} />
-              </Form.Group>
+            <Button
+              variant="primary"
+              type="submit"
+              block
+            >
+              Sign In
+            </Button>
 
-              <Form.Group controlId="formBasicPassword">
-                <Form.Label>Password</Form.Label>
-                <Form.Control type="password" placeholder="Password" name="userPassword" value={this.state.password} onChange={(event) => this.onChangeHandler(event)} />
-              </Form.Group>
-
-              <Button
-                variant="primary"
-                type="submit"
-                block
-                onClick={event => {
-                  this.signInWithEmailAndPasswordHandler(event, this.state.email, this.state.password);
-                }}
-              >
-                Sign In
+            <div style={{ margin: '40px 0px' }}>
+              <p className="ride-line"><span className="ride-line-span">or</span></p>
+              <Button variant="outline-primary" block onClick={signInWithGoogle}>
+                Sign in with Google
               </Button>
+            </div>
 
-              <div style={{ margin: '40px 0px' }}>
-                <p className="ride-line"><span className="ride-line-span">or</span></p>
-                <Button variant="outline-primary" block onClick={signInWithGoogle}>
-                  Sign in with Google
-                </Button>
-              </div>
+          </Form>
 
-            </Form>
+          <p style={{ paddingBottom: '100px' }}>
+            Don't have an account? Sign up <Link to="/signUp">here</Link>
+          </p>
 
-            <p style={{ paddingBottom: '100px' }}>
-              Don't have an account? Sign up <Link to="/signUp">here</Link>
-            </p>
+        </div>
 
-          </div>
+      </Container>
 
-        </Container>
-
-      </div>
-    )
-  }
+    </div>
+  )
 }
 
 export default SignIn;
