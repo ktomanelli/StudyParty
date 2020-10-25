@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { Link } from 'react-router-dom';
-import { Navbar, Nav } from 'react-bootstrap';
+import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import { auth } from '../../firebase';
+import EditProfile from '../EditProfile/EditProfile';
 
 
 class NavigationBar extends Component {
@@ -32,24 +33,14 @@ class NavigationBar extends Component {
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="mr-auto">
             <Nav.Link as={Link} to='/about'>About</Nav.Link>
-            {/* <Nav.Link as={Link} to='/about'>Contact Us</Nav.Link> */}
-            {/* <Nav.Link href={`${process.env.PUBLIC_URL}/about`}>About</Nav.Link>
-            <Nav.Link href={`${process.env.PUBLIC_URL}/about`}>Contact Us</Nav.Link> */}
-            {/* <Nav.Link href="#pricing">Pricing</Nav.Link>
-            <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
-            </NavDropdown> */}
           </Nav>
-          <Nav>
+          <Nav className="mr-4">
             {this.state.user ?
-              <>
-                <Nav.Link style={{ marginRight: "20px" }}>{`Welcome, ${this.state.user.displayName ? this.state.user.displayName : this.props.displayName}`}</Nav.Link>
-                <Nav.Link style={{ marginRight: "20px" }} onClick={() => { auth.signOut() }}>Logout</Nav.Link>
-              </>
+              <NavDropdown title={this.state.user.displayName ? this.state.user.displayName : this.props.displayName} id="collasible-nav-dropdown">
+                <NavDropdown.Item style={{ marginRight: "20px" }} onClick={() => { auth.signOut() }}>Logout</NavDropdown.Item>
+                {/* <NavDropdown.Item href="#">Your Profile</NavDropdown.Item> */}
+                <EditProfile user={this.state.user} />
+              </NavDropdown>
               : null}
           </Nav>
         </Navbar.Collapse>

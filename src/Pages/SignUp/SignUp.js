@@ -1,7 +1,7 @@
 import React, { useState,useEffect } from 'react';
 import { Container, Jumbotron, Button, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { signInWithGoogle, createUserProfile } from '../../firebase';
+import { signInWithGoogle, updateUserProfile } from '../../firebase';
 import firebase from "firebase/app";
 
 const SignUp = props=>{
@@ -39,7 +39,7 @@ const SignUp = props=>{
           console.log(user.displayName);
           console.log(user.email);
           // database.ref('users/' + user.uid + "/profile").set(user);
-          createUserProfile(user)
+          updateUserProfile(user)
           console.log(`Successfully updated profile with displayName`)
         })
         .catch(function (error) {
