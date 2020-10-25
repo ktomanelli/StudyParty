@@ -1,7 +1,7 @@
 import React, { useState,useEffect } from 'react';
 import { Container, Jumbotron, Button, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { signInWithGoogle } from '../../firebase';
+import { signInWithGoogle, createUserProfile } from '../../firebase';
 import firebase from "firebase/app";
 
 const SignUp = props=>{
@@ -21,7 +21,7 @@ const SignUp = props=>{
     },Math.random()*200+50)
   },[typed])
 
- const  createUserWithEmailAndPasswordHandler = () => {
+ const createUserWithEmailAndPasswordHandler = () => {
   // adds displayName immediately to state on Application.js to display on navigation bar
   props.updateDisplayNameFromForm(userInput.displayName)
 
@@ -34,6 +34,12 @@ const SignUp = props=>{
         displayName: userInput.displayName
       })
         .then(function () {
+          console.log(user);
+          console.log(user.uid);
+          console.log(user.displayName);
+          console.log(user.email);
+          // database.ref('users/' + user.uid + "/profile").set(user);
+          createUserProfile(user)
           console.log(`Successfully updated profile with displayName`)
         })
         .catch(function (error) {

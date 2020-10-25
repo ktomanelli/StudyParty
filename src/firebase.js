@@ -1,6 +1,7 @@
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
+import "firebase/database"
 
 const firebaseConfig = {
   apiKey: "AIzaSyCLuloPcn-et2C4WJqj6uf03HGcpcYF3m8",
@@ -18,15 +19,40 @@ firebase.initializeApp(firebaseConfig);
 // firebase.analytics();
 
 
-// get references to Cloud Firestore and Authentication service, and export them
+// get references to Cloud Firestore, Database, and Authentication service, and export them
 export const auth = firebase.auth();
+export const database = firebase.database();
 export const firestore = firebase.firestore();
 firebase.firestore().enablePersistence();
 
 const provider = new firebase.auth.GoogleAuthProvider();
 
+export const createUserProfile = (user) => {
+  database.ref('users/' + user.uid).set({
+    username: user.displayName,
+    email: user.email,
+    profile_picture: user.photoURL,
+    phone_number: user.phoneNumber
+  });
+}
+
 export const signInWithGoogle = () => {
-  auth.signInWithPopup(provider);
+  auth.signInWithPopup(provider)
+  .then(function(result) {
+    // This gives you a Google Access Token. You can use it to access the Google API.
+    // The signed-in user info.
+    const user = result.user;
+    createUserProfile(user)
+  }).catch(function(error) {
+    // Handle Errors here.
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    // The email of the user's account used.
+    const email = error.email;
+    // The firebase.auth.AuthCredential type that was used.
+    const credential = error.credential;
+    console.log(error)
+  });
 };
 
 export const generateUserDocument = async (user, additionalData) => {

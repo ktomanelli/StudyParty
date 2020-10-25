@@ -13,7 +13,7 @@ class About extends Component {
           </Jumbotron>
           <Row>
             <Col>
-              <p className='text-description montserrat'>StudyParty helps students study together to achieve their learning goals. We are dedicated to the simple idea that learning should be social. When we learn together, we help each other stay on task, work through gaps in our comprehension, and have fun!
+              <p className='about-description montserrat'>StudyParty helps students study together to achieve their learning goals. We are dedicated to the simple idea that learning should be social. When we learn together, we help each other stay on task, work through gaps in our comprehension, and have fun!
               </p>
             </Col>
           </Row>
