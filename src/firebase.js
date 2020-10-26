@@ -39,11 +39,12 @@ export const updateUserProfile = (user, updatedUser, callback) => {
         displayName: updatedUser.displayName,
         email: user.email,
         photoURL: updatedUser.photoURL || null,
-        phoneNumber: updatedUser.phoneNumber || null
       }
+      if (updatedUser.phoneNumber) {newUserObj.phoneNumber = updatedUser.phoneNumber}
       console.log(callback)
-        callback(newUserObj)
-      
+      if(callback) {
+        callback(newUserObj)}
+      console.log(newUserObj)
       // creates or updates Realtime database profile
       database.ref('users/' + user.uid).update(newUserObj)
     })

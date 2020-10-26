@@ -36,7 +36,7 @@ class App extends Component {
 
         database.ref('/users/' + userId).once('value')
           .then((snapshot) => {
-            const userProfile = snapshot.val() || { displayName: 'Anonymous' };
+            const userProfile = snapshot.val() || userAuth ;
             console.log(userProfile)
             this.setState({ user: userProfile })
             //   console.log(this.state))
@@ -45,6 +45,13 @@ class App extends Component {
             console.log(error)
           })
       }
+    })
+  }
+
+  updateDisplayNameFromForm = (displayName) => {
+    console.log(displayName)
+    this.setState({
+      displayNameFromForm: displayName,
     })
   }
 
@@ -69,7 +76,7 @@ class App extends Component {
 
         <BrowserRouter basename={`${process.env.PUBLIC_URL}/`}>
 
-          <NavigationBar user={this.state.user} updateUserInState={this.updateUserInState} />
+          <NavigationBar user={this.state.user} displayName={this.state.displayNameFromForm} updateUserInState={this.updateUserInState} />
 
           <Switch>
 
@@ -79,7 +86,7 @@ class App extends Component {
 
             <Route exact path="/signUp"
               render={props => (
-                this.state.user ? <Redirect to="/main" /> : <SignUp />
+                this.state.user ? <Redirect to="/main" /> : <SignUp updateDisplayNameFromForm={this.updateDisplayNameFromForm}/>
               )}
             />
 

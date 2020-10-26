@@ -6,6 +6,7 @@ import EditProfile from '../EditProfile/EditProfile';
 
 
 function NavigationBar(props) {
+  console.log(props)
 
   return (
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" >
@@ -17,7 +18,7 @@ function NavigationBar(props) {
         </Nav>
         <Nav style={{ marginRight: '75px' }}>
           {props.user ?
-            <NavDropdown title={props.user.displayName} id="collasible-nav-dropdown">
+            <NavDropdown title={props.user.displayName ? props.user.displayName : props.displayName} id="collasible-nav-dropdown">
               <EditProfile user={props.user} updateUserInState={props.updateUserInState} />
               <NavDropdown.Item style={{ marginRight: "20px" }} onClick={() => { auth.signOut() }}>Logout</NavDropdown.Item>
             </NavDropdown>

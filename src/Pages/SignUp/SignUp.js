@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { signInWithGoogle, updateUserProfile } from '../../firebase';
 import firebase from "firebase/app";
 
-const SignUp = () => {
+const SignUp = props => {
   const [{ typed, i }, setTyped] = useState({ typed: '', i: 0 })
   const [userInput, setUserInput] = useState({
     email: "",
@@ -22,6 +22,8 @@ const SignUp = () => {
   }, [typed])
 
   const createUserWithEmailAndPasswordHandler = () => {
+    // adds displayName immediately to state on Application.js to display on navigation bar
+    props.updateDisplayNameFromForm(userInput.displayName)
 
     firebase.auth()
       .createUserWithEmailAndPassword(userInput.email, userInput.password)
@@ -31,10 +33,10 @@ const SignUp = () => {
         console.log(user);
         console.log(userInput)
         updateUserProfile(user, userInput)
-          .catch(function (error) {
-            setUserInput({ ...userInput, error: error.message })
-            console.log(`Error updating user with displayName:`, error)
-          });
+        // .catch(function (error) {
+        //   setUserInput({ ...userInput, error: error.message })
+        //   console.log(`Error updating user with displayName:`, error)
+        // });
       })
       .catch(function (error) {
         setUserInput({ ...userInput, error: error.message })
