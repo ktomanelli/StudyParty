@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { Button, Modal, NavDropdown, Form, Col } from 'react-bootstrap';
 
-import { updateUserProfile } from '../../firebase';
+import { updateUserProfile, auth } from '../../firebase';
 import firebase from "firebase/app";
 
-const EditProfile = props => {
-  console.log(props.user)
+const EditProfile = (props) => {
+  console.log(props)
 
   const [userInput, setUserInput] = useState({
     displayName: props.user.displayName,
@@ -33,35 +33,18 @@ const EditProfile = props => {
   const handleSubmit = (event) => {
     event.preventDefault()
     const user = firebase.auth().currentUser;
-
-    // update user authentication profile
-    user.updateProfile({
+    const updatedUserObj = {
+      uid: user.uid,
+      email: user.email,
       displayName: userInput.displayName,
       phoneNumber: userInput.phoneNumber,
       photoURL: userInput.photoURL
-    })
-      .then(function () {
-        const updatedUser = {
-          uid: user.uid,
-          email: user.email,
-          displayName: userInput.displayName,
-          phoneNumber: userInput.phoneNumber,
-          photoURL: userInput.photoURL
-        }
-        console.log(updatedUser)
+    }
+    console.log(updatedUserObj)
 
-        // update user profile in Realtime database
-        updateUserProfile(updatedUser)
-
-        console.log(`Successfully updated profile with displayName`)
-      })
-      .then(function () {
-        handleClose()
-      })
-      .catch(function (error) {
-        setUserInput({ ...userInput, error: error.message })
-        console.log(`Error updating user with displayName:`, error)
-      });
+    // update user profile in Realtime database
+    updateUserProfile(user, updatedUserObj, props.updateUserInState)
+    handleClose()
   }
 
   return (

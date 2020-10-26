@@ -27,26 +27,46 @@ firebase.firestore().enablePersistence();
 
 const provider = new firebase.auth.GoogleAuthProvider();
 
-export const updateUserProfile = (user) => {
-  database.ref('users/' + user.uid).update({
-    displayName: user.displayName,
-    email: user.email,
-    photoURL: user.photoURL,
-    phoneNumber: user.phoneNumber
-  });
+export const updateUserProfile = (user, updatedUser, callback) => {
+  console.log(user, updatedUser)
+  // updates authentication profile
+  user.updateProfile({
+    displayName: updatedUser.displayName,
+    photoURL: updatedUser.photoURL || null
+  })
+    .then(() => {
+      const newUserObj = {
+        displayName: updatedUser.displayName,
+        email: user.email,
+        photoURL: updatedUser.photoURL || null,
+        phoneNumber: updatedUser.phoneNumber || null
+      }
+      console.log(callback)
+        callback(newUserObj)
+      
+      // creates or updates Realtime database profile
+      database.ref('users/' + user.uid).update(newUserObj)
+    })
+    .then(() => {
+      console.log(`Successfully updated profile`)
+    })
+    .catch(function (error) {
+      console.log(`Error updating user profile:`, error)
+    });
 }
 
 export const signInWithGoogle = () => {
   auth.signInWithPopup(provider)
-  .then(function(result) {
-    // This gives you a Google Access Token. You can use it to access the Google API.
-    // The signed-in user info.
-    const user = result.user;
-    updateUserProfile(user)
-  }).catch(function(error) {
-    // Handle Errors here.
-    console.log(error)
-  });
+    .then(function (result) {
+      // This gives you a Google Access Token. You can use it to access the Google API.
+      // The signed-in user info.
+      const user = result.user;
+      console.log(user)
+      updateUserProfile(user, user)
+    }).catch(function (error) {
+      // Handle Errors here.
+      console.log(error)
+    });
 };
 
 export const generateUserDocument = async (user, additionalData) => {

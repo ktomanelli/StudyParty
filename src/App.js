@@ -10,7 +10,7 @@ import About from './Pages/About/About'
 import NavigationBar from './Components/NavigationBar/NavigationBar'
 
 // import firebase auth
-import { auth } from './firebase';
+import { auth, database } from './firebase';
 
 // import styles
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -26,9 +26,32 @@ class App extends Component {
 
   componentDidMount() {
     auth.onAuthStateChanged(userAuth => {
-      console.log(userAuth)
-      this.setState({ user: userAuth },
-        console.log(this.state))
+      if (!userAuth) {
+        this.setState({
+          user: null
+        })
+      } else {
+        console.log(userAuth.uid)
+        const userId = userAuth.uid
+
+        database.ref('/users/' + userId).once('value')
+          .then((snapshot) => {
+            const userProfile = snapshot.val() || { displayName: 'Anonymous' };
+            console.log(userProfile)
+            this.setState({ user: userProfile })
+            //   console.log(this.state))
+          })
+          .catch(function (error) {
+            console.log(error)
+          })
+      }
+    })
+  }
+
+  updateUserInState = (user) => {
+    console.log(`UpdateUserInState run`)
+    this.setState({
+      user: user
     })
   }
 
@@ -46,8 +69,8 @@ class App extends Component {
 
         <BrowserRouter basename={`${process.env.PUBLIC_URL}/`}>
 
-          <NavigationBar displayName={this.state.displayNameFromForm} />
-          
+          <NavigationBar user={this.state.user} updateUserInState={this.updateUserInState} />
+
           <Switch>
 
             <Route exact path="/">
@@ -56,7 +79,7 @@ class App extends Component {
 
             <Route exact path="/signUp"
               render={props => (
-                this.state.user ? <Redirect to="/main" /> : <SignUp updateDisplayNameFromForm={this.updateDisplayNameFromForm} />
+                this.state.user ? <Redirect to="/main" /> : <SignUp />
               )}
             />
 
